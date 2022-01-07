@@ -1,4 +1,5 @@
 import 'package:demo_shop_app/model/banner_model.dart';
+import 'package:demo_shop_app/screens/screen_product_detail/page_product_detail.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,7 @@ class HomePageState extends State<HomePage> {
               child: Container(
                 margin: EdgeInsets.only(right: 27),
                 alignment: Alignment.centerRight,
-                child: Ink(
+                child: Container(
                   width: 40,
                   decoration: ShapeDecoration(
                       shape: CircleBorder(),
@@ -157,7 +158,7 @@ class HomePageState extends State<HomePage> {
             scrollDirection: Axis.horizontal,
             controller: _pageController,
             itemCount: listBanner.length,
-            itemBuilder: (BuildContext context,int index) =>
+            itemBuilder: (BuildContext context, int index) =>
                 _mybannerHome(context, index, listBanner),
           ),
         ),
@@ -198,7 +199,7 @@ class HomePageState extends State<HomePage> {
               scrollDirection: Axis.horizontal,
               itemCount: 14,
               itemBuilder: (BuildContext context, index) =>
-                  _myItemListView(context, 3),
+                  _myItemListView(context, index),
             ),
           )
         ],
@@ -207,7 +208,7 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _mybannerHome(
-      BuildContext context,int index, List<BannerModel> listBanner) {
+      BuildContext context, int index, List<BannerModel> listBanner) {
     return Container(
         color: Color.fromRGBO(242, 242, 242, 1.0),
         child: Column(children: [
@@ -285,41 +286,34 @@ class HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      listBanner[index].title,
-                      style:
-                          TextStyle(fontSize: 21, fontWeight: FontWeight.w900),
-                    ),
-                    Text(
-                      listBanner[index].content,
-                      overflow: TextOverflow.fade,
-                      maxLines: 2,
-                      softWrap: false,
-                      style: TextStyle(
-                          fontSize: 13,
-                          color: Color.fromRGBO(106, 106, 106, 1.0)),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        listBanner[index].title,
+                        style: TextStyle(
+                            fontSize: 21, fontWeight: FontWeight.w900),
+                      ),
+                      Text(
+                        listBanner[index].content,
+                        overflow: TextOverflow.clip,
+                        maxLines: 2,
+                        softWrap: false,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Color.fromRGBO(106, 106, 106, 1.0)),
+                      ),
+                    ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          '€',
-                          style: TextStyle(
-                              fontSize: 21, fontWeight: FontWeight.w900),
-                        ),
-                        Text(
-                          listBanner[index].price.toString(),
-                          style: TextStyle(
-                              fontSize: 21, fontWeight: FontWeight.w900),
-                        ),
-                      ],
+                    Text(
+                      '€${listBanner[index].price}',
+                      style:
+                          TextStyle(fontSize: 21, fontWeight: FontWeight.w900),
                     ),
                     Text(
                       'VAT included',
@@ -345,15 +339,33 @@ class HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width * 0.4,
               height: MediaQuery.of(context).size.height * 0.235,
               margin: EdgeInsets.fromLTRB(17, 0, 18, 0),
-              child: Card(
-                elevation: 20,
-                clipBehavior: Clip.antiAlias,
-                shadowColor: Color.fromRGBO(188, 188, 188, 0.7),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Image.asset(
-                  'images/lv_item1.png',
-                  fit: BoxFit.cover,
+              child: Hero(
+                //phai boc hero ngoai card
+                tag: 'itemlv$index',
+                child: Card(
+                  elevation: 20,
+                  clipBehavior: Clip.antiAlias,
+                  shadowColor: Color.fromRGBO(188, 188, 188, 0.7),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: InkWell(
+                    onTap: () {
+                      print('tagNm::$index');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailPage(
+                            index: index,
+                            key: ValueKey('$index'),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Image.asset(
+                      'images/lv_item1.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
             ),

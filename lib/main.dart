@@ -10,6 +10,7 @@ import 'model/banner_model.dart';
 import 'screens/screen_cart/page_cart.dart';
 import 'screens/screen_home/page_home.dart';
 import 'screens/screen_like/page_like.dart';
+import 'screens/screen_product_detail/page_product_detail.dart';
 
 void main() {
   runApp(MyApp());
