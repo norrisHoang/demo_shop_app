@@ -350,7 +350,6 @@ class HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(10)),
                   child: InkWell(
                     onTap: () {
-                      print('tagNm::$index');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
