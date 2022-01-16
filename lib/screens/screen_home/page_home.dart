@@ -82,7 +82,7 @@ class HomePageState extends State<HomePage> {
 
   Widget _headerHome() {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 30),
       child: Row(
         children: [
           Expanded(
@@ -213,7 +213,6 @@ class HomePageState extends State<HomePage> {
         color: Color.fromRGBO(242, 242, 242, 1.0),
         child: Column(children: [
           Stack(
-            fit: StackFit.loose,
             clipBehavior: Clip.none,
             children: [
               Card(
@@ -225,7 +224,7 @@ class HomePageState extends State<HomePage> {
                 // đổ bóng
                 child: Image.asset(
                   listBanner[index].image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               Positioned(

@@ -195,8 +195,6 @@ class CartPageState extends State<CartPage> {
     );
   }
 
-  void aaa(BuildContext context) {}
-
   Widget _myItemListView(BuildContext context, int index) {
     return Slidable(
       key: ValueKey(index.toString()),

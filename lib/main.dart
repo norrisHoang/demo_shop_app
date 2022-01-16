@@ -7,9 +7,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'model/banner_model.dart';
+import 'screens/screen_Checkout/page_checkout.dart';
 import 'screens/screen_cart/page_cart.dart';
 import 'screens/screen_home/page_home.dart';
-import 'screens/screen_like/page_like.dart';
 import 'screens/screen_product_detail/page_product_detail.dart';
 
 void main() {
@@ -36,7 +36,6 @@ class ShopAppState extends State<ShopApp> {
   late PageController _pageController;
   late ScrollController _scrollController = ScrollController();
 
-
   late List<String> _pathIcon = [
     'images/home_icon.svg',
     'images/like_icon_grey.svg',
@@ -52,7 +51,7 @@ class ShopAppState extends State<ShopApp> {
 
   List<Widget> _listScreens = [
     HomePage(),
-    LikePage(),
+    CheckoutPage(),
     CartPage(),
     SearchPage()
   ];

@@ -32,53 +32,111 @@ class SearchPageState extends State<SearchPage>
                 child: Column(children: [
       _headerSearch(context),
       _searchBar(context),
-      _listViewHome(context),
-      // _buildTabBar(context),
-                  Container(child: Text("My recent searches"),)
+      _listSearchCategory(context),
+      Container(
+        margin: EdgeInsets.fromLTRB(20, 20, 0, 20),
+        alignment: Alignment.bottomLeft,
+        color: Colors.white,
+        child: Text(
+          'My recent searches',
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+        ),
+      ),
+      _listSearchResults(context),
+      _advertisement(context),
     ]))));
   }
 
-  Widget _buildTabBar(BuildContext context) {
+  Widget _advertisement(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height * 0.20,
+          margin: EdgeInsets.fromLTRB(17, 0, 18, 0),
+          child: Card(
+            elevation: 20,
+            clipBehavior: Clip.antiAlias,
+            shadowColor: Color.fromRGBO(188, 188, 188, 0.7),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Image.asset(
+              'images/img_advertisement.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Positioned(
+          child: SvgPicture.asset(
+            'images/img_text_advertisement.svg',
+          ),
+          bottom: 25,
+          left: 45,
+        )
+      ],
+    );
+  }
+
+  Widget _listSearchResults(BuildContext context) {
     return Container(
-      height: 45,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(
-          25.0,
-        ),
-      ),
-      child: TabBar(
-        controller: _tabController,
-        // give the indicator a decoration (color and border radius)
-        indicator: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            25.0,
-          ),
-          color: Colors.green,
-        ),
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.black,
-        tabs: const [
-          // First tab
-          Tab(
-            text: 'Place Bid',
-          ),
-          // Second tab
-          Tab(
-            text: 'Buy Now',
-          ),
-          // Third tab
-          Tab(
-            text: 'DMM',
-          ),
-        ],
+      height: MediaQuery.of(context).size.height * 0.28,
+      child: ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: 4,
+        itemBuilder: (BuildContext context, index) =>
+            _myItemResult(context, index),
       ),
     );
   }
 
-  Widget _listViewHome(BuildContext context) {
+  Widget _myItemResult(BuildContext context, int index) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      width: MediaQuery.of(context).size.width * 0.32,
+      margin: EdgeInsets.fromLTRB(20, 0, 18, 5),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        height: MediaQuery.of(context).size.height * 0.06,
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.2))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+                flex: 9,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Text(
+                        'Shirt',
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    Text(
+                      'Shirt, model',
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                )),
+            Expanded(
+                flex: 1,
+                child: IconButton(
+                  icon: SvgPicture.asset('images/icon_view_detail.svg'),
+                  onPressed: () {},
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _listSearchCategory(BuildContext context) {
+    return Container(
       height: MediaQuery.of(context).size.height * 0.18,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -93,7 +151,7 @@ class SearchPageState extends State<SearchPage>
     return Container(
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width * 0.32,
-      margin: EdgeInsets.fromLTRB(17, 0, 18, 20),
+      margin: EdgeInsets.fromLTRB(25, 0, 18, 20),
       decoration: BoxDecoration(
         color: Color.fromRGBO(216, 216, 216, 0.4),
         borderRadius: BorderRadiusDirectional.circular(10),
@@ -104,15 +162,16 @@ class SearchPageState extends State<SearchPage>
           SizedBox(
             child: SvgPicture.asset("images/icon_shirt.svg"),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text(
             'Shirt',
             maxLines: 1,
             style: TextStyle(
-              fontSize: 12,
-              color: Color(0xff2F69F8),
-              fontWeight: FontWeight.w700
-            ),
+                fontSize: 12,
+                color: Color(0xff2F69F8),
+                fontWeight: FontWeight.w700),
           ),
         ],
       ),
@@ -136,7 +195,10 @@ class SearchPageState extends State<SearchPage>
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(10.0),
-              hintText: "What are you looking",
+              hintText: "What are you looking for?",
+              hintStyle: TextStyle(
+                color: Color.fromRGBO(34, 34, 34, 0.5),
+              ),
               border: InputBorder.none,
             ),
           ),
@@ -150,7 +212,7 @@ class SearchPageState extends State<SearchPage>
           Expanded(
             flex: 7,
             child: Container(
-              margin: EdgeInsets.only(left: 25, top: 20),
+              margin: EdgeInsets.only(left: 25, top: 30 , bottom: 20),
               child: Text(
                 'Search',
                 style: TextStyle(
