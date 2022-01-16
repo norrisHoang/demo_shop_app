@@ -325,6 +325,7 @@ class TabShipmentState extends State<TabShipment> {
                 onTap: () {
                   setState(() {
                     _checkAddress = 1;
+
                   });
                 },
                 child: Container(
