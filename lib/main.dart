@@ -4,13 +4,10 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import 'model/banner_model.dart';
+import 'model/product_model.dart';
 import 'screens/screen_Checkout/page_checkout.dart';
 import 'screens/screen_cart/page_cart.dart';
 import 'screens/screen_home/page_home.dart';
-import 'screens/screen_product_detail/page_product_detail.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +29,7 @@ class ShopApp extends StatefulWidget {
 }
 
 class ShopAppState extends State<ShopApp> {
+  static MyList myList = MyList();
   int _selected = 0;
   late PageController _pageController;
   late ScrollController _scrollController = ScrollController();
@@ -58,6 +56,7 @@ class ShopAppState extends State<ShopApp> {
 
   @override
   void initState() {
+    myList.setListProductModel();
     _pageController = PageController();
   }
 

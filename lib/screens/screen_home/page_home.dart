@@ -1,4 +1,5 @@
-import 'package:demo_shop_app/model/banner_model.dart';
+import 'package:demo_shop_app/main.dart';
+import 'package:demo_shop_app/model/product_model.dart';
 import 'package:demo_shop_app/screens/screen_product_detail/page_product_detail.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,38 +16,7 @@ class HomePageState extends State<HomePage> {
   late PageController _pageController;
   late ScrollController _scrollController = ScrollController();
   var withScreen;
-  late List<BannerModel> listBanner = [
-    BannerModel(
-        image: 'images/one_tabview.png',
-        title: 'Twerk it',
-        content: 'Long 3/4 sleeve. sweartshirt',
-        price: 200),
-    BannerModel(
-        image: 'images/two_tabview.png',
-        title: 'Jacket in blue denim',
-        content: 'Wrangler Vintage-style womens’s',
-        price: 120),
-    BannerModel(
-        image: 'images/three_tabview.png',
-        title: ' T-shirt Mark Lebon Julie',
-        content: 'Get back to basics in this pared-down denim jacket',
-        price: 50),
-    BannerModel(
-        image: 'images/one_tabview.png',
-        title: 'Twerk it',
-        content: 'Long 3/4 sleeve. sweartshirt',
-        price: 200),
-    BannerModel(
-        image: 'images/two_tabview.png',
-        title: 'Jacket in blue denim',
-        content: 'Wrangler Vintage-style womens’s',
-        price: 120),
-    BannerModel(
-        image: 'images/three_tabview.png',
-        title: ' T-shirt Mark Lebon Julie',
-        content: 'Get back to basics in this pared-down denim jacket',
-        price: 50),
-  ];
+  var myListProduct = ShopAppState.myList.myListProduct;
 
   @override
   void initState() {
@@ -157,9 +127,9 @@ class HomePageState extends State<HomePage> {
           child: PageView.builder(
             scrollDirection: Axis.horizontal,
             controller: _pageController,
-            itemCount: listBanner.length,
+            itemCount: myListProduct.length,
             itemBuilder: (BuildContext context, int index) =>
-                _mybannerHome(context, index, listBanner),
+                _mybannerHome(context, index, myListProduct),
           ),
         ),
         Container(
@@ -168,7 +138,7 @@ class HomePageState extends State<HomePage> {
           alignment: Alignment.center,
           child: SmoothPageIndicator(
             controller: _pageController,
-            count: listBanner.length,
+            count: myListProduct.length,
             effect: ScrollingDotsEffect(
                 maxVisibleDots: 5,
                 dotWidth: 6,
@@ -197,9 +167,9 @@ class HomePageState extends State<HomePage> {
             height: MediaQuery.of(context).size.height * 0.44,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 14,
+              itemCount: myListProduct.length,
               itemBuilder: (BuildContext context, index) =>
-                  _myItemListView(context, index),
+                  _myItemListView(context, index, myListProduct[index]),
             ),
           )
         ],
@@ -208,7 +178,7 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _mybannerHome(
-      BuildContext context, int index, List<BannerModel> listBanner) {
+      BuildContext context, int index, List<ProductModel> myListProduct) {
     return Container(
         color: Color.fromRGBO(242, 242, 242, 1.0),
         child: Column(children: [
@@ -223,7 +193,7 @@ class HomePageState extends State<HomePage> {
                 elevation: 30,
                 // đổ bóng
                 child: Image.asset(
-                  listBanner[index].image,
+                  myListProduct[index].image_banner,
                   fit: BoxFit.contain,
                 ),
               ),
@@ -290,12 +260,12 @@ class HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        listBanner[index].title,
+                        myListProduct[index].name,
                         style: TextStyle(
                             fontSize: 21, fontWeight: FontWeight.w900),
                       ),
                       Text(
-                        listBanner[index].content,
+                        myListProduct[index].title,
                         overflow: TextOverflow.clip,
                         maxLines: 2,
                         softWrap: false,
@@ -310,7 +280,7 @@ class HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '€${listBanner[index].price}',
+                      '€${myListProduct[index].price}',
                       style:
                           TextStyle(fontSize: 21, fontWeight: FontWeight.w900),
                     ),
@@ -328,7 +298,7 @@ class HomePageState extends State<HomePage> {
         ]));
   }
 
-  Widget _myItemListView(BuildContext context, int index) {
+  Widget _myItemListView(BuildContext context, int index, ProductModel myProduct) {
     return Stack(
       children: [
         Column(
@@ -340,7 +310,7 @@ class HomePageState extends State<HomePage> {
               margin: EdgeInsets.fromLTRB(17, 0, 18, 0),
               child: Hero(
                 //phai boc hero ngoai card
-                tag: 'itemlv$index',
+                tag: 'itemlv$index'+'${myProduct.name}',
                 child: Card(
                   elevation: 20,
                   clipBehavior: Clip.antiAlias,
@@ -360,7 +330,7 @@ class HomePageState extends State<HomePage> {
                       );
                     },
                     child: Image.asset(
-                      'images/lv_item1.png',
+                      myProduct.image_item_list,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -373,12 +343,12 @@ class HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Admin tran',
+                    myProduct.name,
                     maxLines: 1,
                     style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
                   ),
                   Text(
-                    'GUCCI',
+                    myProduct.type,
                     maxLines: 1,
                     style: TextStyle(
                       fontSize: 14,

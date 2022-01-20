@@ -1,11 +1,10 @@
-import 'package:demo_shop_app/model/banner_model.dart';
+import 'package:demo_shop_app/main.dart';
+import 'package:demo_shop_app/model/product_model.dart';
 import 'package:demo_shop_app/screens/screen_product_detail/page_product_detail.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -15,6 +14,7 @@ class CartPage extends StatefulWidget {
 class CartPageState extends State<CartPage> {
   late PageController _pageController;
   late ScrollController _scrollController = ScrollController();
+  var myListProduct = ShopAppState.myList.myListProduct;
   var withScreen;
 
   @override
@@ -188,14 +188,14 @@ class CartPageState extends State<CartPage> {
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         primary: false,
-        itemCount: 14,
+        itemCount: myListProduct.length,
         itemBuilder: (BuildContext context, index) =>
-            _myItemListView(context, index),
+            _myItemListView(context, index, myListProduct[index]),
       ),
     );
   }
 
-  Widget _myItemListView(BuildContext context, int index) {
+  Widget _myItemListView(BuildContext context, int index, ProductModel myProduct) {
     return Slidable(
       key: ValueKey(index.toString()),
       endActionPane: ActionPane(
@@ -246,7 +246,7 @@ class CartPageState extends State<CartPage> {
                           );
                         },
                         child: Image.asset(
-                          'images/image_jacket_cart.png',
+                          myProduct.image_item_cart,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -267,16 +267,16 @@ class CartPageState extends State<CartPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Admin tran',
+                                myProduct.name,
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w800, fontSize: 14),
                               ),
                               Text(
-                                'Wramgle',
+                                myProduct.type,
                                 style: TextStyle(height: 3),
                               ),
-                              Text('Size: 14', style: TextStyle(height: 1.2)),
+                              Text('Size: ${myProduct.size.toString()}', style: TextStyle(height: 1.2)),
                               Container(
                                 child: Row(
                                   children: [
@@ -286,24 +286,23 @@ class CartPageState extends State<CartPage> {
                                       padding: EdgeInsets.all(4),
                                       decoration: ShapeDecoration(
                                           shape: CircleBorder(),
-                                          color:
-                                              Color.fromRGBO(255, 183, 1, 1.0)),
+                                          color: Color(int.parse('0xFF${myProduct.color}'))),
                                     ),
                                   ],
                                 ),
                               ),
-                              Text('Quanlity: 1',
+                              Text('Quanlity: ${myProduct.quantity.toString()}',
                                   style: TextStyle(height: 1.2)),
                             ],
                           ),
                         ),
                         Text(
-                          '€120',
+                          '€${myProduct.price.toString()}',
                           maxLines: 1,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              color: Color.fromRGBO(47, 105, 248, 1.0)),
+                              color: Color.fromRGBO(47, 105, 248, 1.0))
                         ),
                       ],
                     )),

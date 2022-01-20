@@ -1,3 +1,5 @@
+import 'package:demo_shop_app/main.dart';
+import 'package:demo_shop_app/model/product_model.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,7 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _productDetailPageState extends State<ProductDetailPage> {
-  String _strTemp =
-      "Get back to basics in this pared-down denim jacket with mild distressing on the seams and a mix fabric collar that adds extra character to this already fetching top.";
+  var myListProduct = ShopAppState.myList.myListProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
             alignment: Alignment.bottomLeft,
             color: Colors.white,
             child: Text(
-              'More form Wrangler',
+              'More from Wrangler',
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
             ),
           ),
@@ -72,9 +73,9 @@ class _productDetailPageState extends State<ProductDetailPage> {
             height: MediaQuery.of(context).size.height * 0.44,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 14,
+              itemCount: myListProduct.length,
               itemBuilder: (BuildContext context, index) =>
-                  _myItemListViewProduct(context, 3),
+                  _myItemListViewProduct(context, index, myListProduct[index]),
             ),
           )
         ],
@@ -88,7 +89,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
       margin: EdgeInsets.fromLTRB(20, 10, 23, 30),
       color: Colors.white,
       child: Text(
-        _strTemp,
+        myListProduct[widget.index].detail,
         style: TextStyle(fontSize: 13, height: 2),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -116,7 +117,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
                 Container(
                   margin: EdgeInsets.only(left: 5),
                   child: Text(
-                    '4/5',
+                    '${myListProduct[widget.index].vote}/5',
                     style: TextStyle(
                         fontSize: 13,
                         color: Color.fromRGBO(106, 106, 106, 1.0)),
@@ -131,7 +132,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
                   child: Row(
                     children: [
                       Text(
-                        'Reviews 12',
+                        'Reviews ${myListProduct[widget.index].review}',
                         style: TextStyle(
                             fontSize: 13,
                             color: Color.fromRGBO(106, 106, 106, 1.0)),
@@ -159,30 +160,13 @@ class _productDetailPageState extends State<ProductDetailPage> {
               'images/icon_material.svg',
             ),
             Container(
-              margin: EdgeInsets.only(left: 5),
-              child: Row(
-                children: [
-                  Text(
-                    '100',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Color.fromRGBO(106, 106, 106, 1.0)),
-                  ),
-                  Text(
-                    '%',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Color.fromRGBO(106, 106, 106, 1.0)),
-                  ),
-                  Text(
-                    'Cotton',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Color.fromRGBO(106, 106, 106, 1.0)),
-                  ),
-                ],
+              margin: EdgeInsets.only(left: 10),
+              child: Text(
+                '${myListProduct[widget.index].material}% Cotton',
+                style: TextStyle(
+                    fontSize: 13, color: Color.fromRGBO(106, 106, 106, 1.0)),
               ),
-            )
+            ),
           ],
         ));
   }
@@ -199,11 +183,11 @@ class _productDetailPageState extends State<ProductDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Jacket in blue denim',
+                myListProduct[widget.index].name,
                 style: TextStyle(fontSize: 21, fontWeight: FontWeight.w900),
               ),
               Text(
-                'Wrancler Vintage-stvle womens',
+                myListProduct[widget.index].title,
                 overflow: TextOverflow.fade,
                 maxLines: 2,
                 softWrap: false,
@@ -216,7 +200,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '€120',
+                '€${myListProduct[widget.index].price.toString()}',
                 style: TextStyle(fontSize: 21, fontWeight: FontWeight.w900),
               ),
               Text(
@@ -237,10 +221,11 @@ class _productDetailPageState extends State<ProductDetailPage> {
         clipBehavior: Clip.none,
         children: [
           Container(
-            child: Hero(
-              tag: 'itemlv${widget.index}',
+            child: new Hero(
+              tag: 'itemlv${widget.index}' +
+                  '${myListProduct[widget.index].name}',
               child: Image.asset(
-                'images/image_product_detail.png',
+                myListProduct[widget.index].image_product_detail,
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -324,7 +309,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
     ]);
   }
 
-  Widget _myItemListViewProduct(BuildContext context, int index) {
+  Widget _myItemListViewProduct(BuildContext context, int index, ProductModel myProduct) {
     return Stack(
       children: [
         Column(
@@ -341,7 +326,7 @@ class _productDetailPageState extends State<ProductDetailPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 child: Image.asset(
-                  'images/lv_item1.png',
+                  myProduct.image_item_list,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -352,12 +337,12 @@ class _productDetailPageState extends State<ProductDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Admin tran',
+                    myProduct.name,
                     maxLines: 1,
                     style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
                   ),
                   Text(
-                    'GUCCI',
+                    myProduct.type,
                     maxLines: 1,
                     style: TextStyle(
                       fontSize: 14,
